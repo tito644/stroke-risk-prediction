@@ -91,7 +91,7 @@ The following models were trained and evaluated:
 - Exportable PDF reports
 
 ---
-كككن
+
 ## 🛠 Technologies Used
 
 - Python
