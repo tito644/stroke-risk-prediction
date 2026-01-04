@@ -97,25 +97,23 @@ The following models were trained and evaluated:
 stroke-risk-prediction/
 │
 ├── notebooks/
-│   └── Medical_Final_Notebook.ipynb
+│ └── Medical_Final_Notebook.ipynb
 │
 ├── docs/
-│   └── The_Final_Documentation.pdf
+│ └── The_Final_Documentation.pdf
 │
 ├── data/
-│   ├── raw/
-│   └── processed/
+│ ├── raw/
+│ └── processed/
 │
 ├── reports/
-│   └── figures/
+│ └── figures/
 │
 ├── requirements.txt
 └── README.md
+
 ---
 
-## 🛠 Technologies Used
-
-```markdown
 ## 🛠 Technologies Used
 
 - Python
@@ -128,21 +126,18 @@ stroke-risk-prediction/
 ---
 ## 🚀 How to Run the Project
 
-1. Clone the repository:
-```bash
-git clone https://github.com/USERNAME/stroke-risk-prediction.git
+### 1️⃣ Clone the repository
 
-2. Install dependencies:
+git clone https://github.com/tito644/stroke-risk-prediction.git
+
+### 2️⃣ Install dependencies:
 pip install -r requirements.txt
 
-3. Run the Jupyter Notebook:
+### 3️⃣ Run the Jupyter Notebook:
 jupyter notebook notebooks/Medical_Final_Notebook.ipynb
 
 ---
 
-## 4️⃣ 📌 Key Results & Insights
-
-```markdown
 ## 📌 Key Results & Insights
 
 - Achieved high predictive performance with **ROC-AUC ≈ 0.93**
@@ -160,7 +155,7 @@ jupyter notebook notebooks/Medical_Final_Notebook.ipynb
 ## 👤 The Team
 
 **Tarek Mohamed El-Naggar**
-**Mohamed Nasr**  
+**Mohamed Nasr**
 **Ahmed Ghanem**  
 **Ahmed Walid**  
 **Doaa Gad-Allah**  
