@@ -91,29 +91,7 @@ The following models were trained and evaluated:
 - Exportable PDF reports
 
 ---
-
-## 📁 Repository Structure
-
-stroke-risk-prediction/
-│
-├── notebooks/
-│ └── Medical_Final_Notebook.ipynb
-│
-├── docs/
-│ └── The_Final_Documentation.pdf
-│
-├── data/
-│ ├── raw/
-│ └── processed/
-│
-├── reports/
-│ └── figures/
-│
-├── requirements.txt
-└── README.md
-
----
-
+كككن
 ## 🛠 Technologies Used
 
 - Python
@@ -155,9 +133,13 @@ jupyter notebook notebooks/Medical_Final_Notebook.ipynb
 ## 👤 The Team
 
 **Tarek Mohamed El-Naggar**
+
 **Mohamed Nasr**
+
 **Ahmed Ghanem**  
+
 **Ahmed Walid**  
+
 **Doaa Gad-Allah**  
 
 Data Scientist | Data Analyst  
@@ -171,4 +153,25 @@ Data Scientist | Data Analyst
 
 This project was developed as part of the **Digital Egypt Pioneers Initiative (DEPI)**  
 under the AI & Data Science track.
+
+---
+## 📁 Repository Structure
+```text
+stroke-risk-prediction/
+│
+├── notebooks/
+│ └── Medical_Final_Notebook.ipynb
+│
+├── docs/
+│ └── The_Final_Documentation.pdf
+│
+├── data/
+│ ├── raw/
+│ └── processed/
+│
+├── reports/
+│ └── figures/
+│
+├── requirements.txt
+└── README.md
 
