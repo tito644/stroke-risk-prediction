@@ -59,7 +59,7 @@ The following models were trained and evaluated:
 - ROC-AUC
 
 > **Best Result:**  
-> Logistic Regression achieved **ROC-AUC ≈ 0.99** with excellent recall and interpretability.
+> Logistic Regression achieved **ROC-AUC ≈ 0.93** with excellent recall and interpretability.
 
 ---
 
@@ -93,4 +93,87 @@ The following models were trained and evaluated:
 ---
 
 ## 📁 Repository Structure
+
+stroke-risk-prediction/
+│
+├── notebooks/
+│   └── Medical_Final_Notebook.ipynb
+│
+├── docs/
+│   └── The_Final_Documentation.pdf
+│
+├── data/
+│   ├── raw/
+│   └── processed/
+│
+├── reports/
+│   └── figures/
+│
+├── requirements.txt
+└── README.md
+---
+
+## 🛠 Technologies Used
+
+```markdown
+## 🛠 Technologies Used
+
+- Python
+- Pandas, NumPy
+- Scikit-learn
+- XGBoost
+- Matplotlib, Seaborn
+- Jupyter Notebook
+- Power BI (for reporting and visualization)
+---
+## 🚀 How to Run the Project
+
+1. Clone the repository:
+```bash
+git clone https://github.com/USERNAME/stroke-risk-prediction.git
+
+2. Install dependencies:
+pip install -r requirements.txt
+
+3. Run the Jupyter Notebook:
+jupyter notebook notebooks/Medical_Final_Notebook.ipynb
+
+---
+
+## 4️⃣ 📌 Key Results & Insights
+
+```markdown
+## 📌 Key Results & Insights
+
+- Achieved high predictive performance with **ROC-AUC ≈ 0.93**
+- Logistic Regression provided the best balance between performance and interpretability
+- Age and specific clinical symptoms were identified as key stroke risk factors
+- Recall-focused modeling ensured minimal false negatives for medical safety
+
+## ⚠️ Limitations & Future Work
+
+- Dataset size limits model generalization
+- Future work includes validation on real clinical data
+- Model explainability can be enhanced using SHAP or LIME
+- Deployment as a cloud-based medical decision support system
+
+## 👤 The Team
+
+**Tarek Mohamed El-Naggar**
+**Mohamed Nasr**  
+**Ahmed Ghanem**  
+**Ahmed Walid**  
+**Doaa Gad-Allah**  
+
+Data Scientist | Data Analyst  
+
+- LinkedIn: https://www.linkedin.com/in/tarek-mohamed-el-naggar/
+- GitHub: https://github.com/tito644
+
+---
+
+## ⭐ Acknowledgments
+
+This project was developed as part of the **Digital Egypt Pioneers Initiative (DEPI)**  
+under the AI & Data Science track.
 
