@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" id="html-root">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>فحص خطر السكتة الدماغية | Stroke Risk Screening</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+<div class="app-shell">
+
+  <header class="top-bar">
+    <div class="brand">
+      <span class="brand-mark">&#9889;</span>
+      <span class="brand-text" data-tr="brand">فحص خطر السكتة الدماغية</span>
+    </div>
+    <button id="lang-toggle" class="lang-toggle" type="button">English</button>
+  </header>
+
+  <main class="page">
+
+    <section class="hero">
+      <h1 data-tr="title">تقييم أولي لخطر السكتة الدماغية</h1>
+      <p class="hero-sub" data-tr="subtitle">أداة فحص أولي مبنية على بيانات سريرية حقيقية من 5,110 حالة</p>
+    </section>
+
+    <section class="disclaimer" role="alert">
+      <div class="disclaimer-icon">&#9888;</div>
+      <div>
+        <strong data-tr="disclaimer_title">تنبيه مهم</strong>
+        <p data-tr="disclaimer_body">
+          هذه الأداة ليست تشخيصًا طبيًا. هي أداة فحص أولي تعليمية تعتمد على نموذج تعلّم آلي مدرّب على بيانات
+          سريرية حقيقية، لكنها لا تعرف تاريخك الطبي الكامل ولا يمكنها استبدال تقييم طبيب مختص. إذا شعرت بأعراض
+          مفاجئة (تنميل، صعوبة في الكلام، ضعف مفاجئ في جانب من الجسم)، اتصل بالطوارئ فورًا.
+        </p>
+      </div>
+    </section>
+
+    <form id="risk-form" class="card form-card">
+      <h2 data-tr="form_header">البيانات الصحية</h2>
+
+      <div class="grid-2">
+        <div class="field">
+          <label for="age" data-tr="age">العمر (بالسنوات)</label>
+          <input type="number" id="age" name="age" min="0" max="120" step="1" value="40" required>
+        </div>
+
+        <div class="field">
+          <label data-tr="gender">النوع</label>
+          <div class="segmented" data-name="gender">
+            <button type="button" class="seg-btn active" data-value="male" data-tr="gender_male">ذكر</button>
+            <button type="button" class="seg-btn" data-value="female" data-tr="gender_female">أنثى</button>
+          </div>
+        </div>
+
+        <div class="field">
+          <label data-tr="residence_type">نوع منطقة السكن</label>
+          <div class="segmented" data-name="residence">
+            <button type="button" class="seg-btn active" data-value="urban" data-tr="residence_urban">حضري (مدينة)</button>
+            <button type="button" class="seg-btn" data-value="rural" data-tr="residence_rural">ريفي</button>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="work_type" data-tr="work_type">نوع العمل</label>
+          <select id="work_type" name="work_type">
+            <option value="Private" data-tr="work_private">قطاع خاص</option>
+            <option value="Self-employed" data-tr="work_self_employed">عمل خاص / حر</option>
+            <option value="Govt_job" data-tr="work_govt">قطاع حكومي</option>
+            <option value="children" data-tr="work_children">طفل (لم يبدأ العمل بعد)</option>
+            <option value="Never_worked" data-tr="work_never">لم يعمل من قبل</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="smoking_status" data-tr="smoking_status">حالة التدخين</label>
+          <select id="smoking_status" name="smoking_status">
+            <option value="never smoked" data-tr="smoking_never">لم يدخن من قبل</option>
+            <option value="formerly smoked" data-tr="smoking_former">مدخن سابق</option>
+            <option value="smokes" data-tr="smoking_current">مدخن حاليًا</option>
+            <option value="Unknown" data-tr="smoking_unknown">غير معروف / أفضل عدم الإجابة</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="glucose" data-tr="glucose">متوسط مستوى الجلوكوز في الدم (mg/dL)</label>
+          <input type="number" id="glucose" name="glucose" min="40" max="400" step="1" value="100" required>
+          <small data-tr="glucose_help">إذا لم تكن متأكدًا، القيمة الطبيعية التقريبية أثناء الصيام هي 70–100 mg/dL</small>
+        </div>
+
+        <div class="field">
+          <label for="bmi" data-tr="bmi">مؤشر كتلة الجسم (BMI)</label>
+          <input type="number" id="bmi" name="bmi" min="10" max="80" step="0.1" value="25">
+          <small data-tr="bmi_help">BMI = الوزن (كجم) ÷ (الطول بالمتر)²</small>
+          <label class="checkbox-line">
+            <input type="checkbox" id="bmi_unknown">
+            <span data-tr="bmi_unknown">لا أعرف مؤشر كتلة جسمي</span>
+          </label>
+        </div>
+      </div>
+
+      <div class="toggles">
+        <label class="checkbox-line">
+          <input type="checkbox" id="hypertension">
+          <span data-tr="hypertension">هل تم تشخيصك بارتفاع ضغط الدم؟</span>
+        </label>
+        <label class="checkbox-line">
+          <input type="checkbox" id="heart_disease">
+          <span data-tr="heart_disease">هل لديك تاريخ مرضي بأمراض القلب؟</span>
+        </label>
+        <label class="checkbox-line">
+          <input type="checkbox" id="ever_married">
+          <span data-tr="ever_married">هل تزوجت سابقًا؟</span>
+          <span class="info-dot" tabindex="0" data-tr="ever_married_help" data-tip="1">&#9432;</span>
+        </label>
+      </div>
+
+      <button type="submit" class="submit-btn" data-tr="submit">&#128269; احسب نسبة الخطر</button>
+    </form>
+
+    <section id="result-card" class="card result-card hidden">
+      <h2 data-tr="result_header">نتيجة التقييم</h2>
+      <div class="result-body">
+        <div class="gauge-wrap">
+          <svg viewBox="0 0 120 120" class="gauge">
+            <circle cx="60" cy="60" r="52" class="gauge-track"></circle>
+            <circle cx="60" cy="60" r="52" class="gauge-fill" id="gauge-fill"></circle>
+          </svg>
+          <div class="gauge-label">
+            <span id="risk-percent">0%</span>
+          </div>
+        </div>
+        <div class="result-text">
+          <div id="risk-banner" class="risk-banner"></div>
+          <p class="model-note" id="model-note"></p>
+        </div>
+      </div>
+    </section>
+
+    <div id="error-box" class="card error-card hidden"></div>
+
+  </main>
+
+  <footer class="footer">
+    <p data-tr="footer_note">مشروع تحليل بيانات لخطر السكتة الدماغية — يستخدم نموذج تعلّم آلي تدرّب على بيانات Kaggle الحقيقية.</p>
+  </footer>
+
+</div>
+
+<script src="{{ url_for('static', filename='js/translations.js') }}"></script>
+<script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>
