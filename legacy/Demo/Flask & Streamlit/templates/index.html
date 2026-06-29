@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{{ translations['ar']['title'] }}</title>
+  <style>
+    :root{ --bg:#ffffff; --fg:#1f2937; --muted:#6b7280; --primary:#14b8a6; --primary-weak:#99f6e4; --card:#f8fafc; --border:#e5e7eb; }
+    .theme-teal{--primary:#14b8a6;--primary-weak:#99f6e4;--bg:#fff;--card:#f8fafc;--fg:#0f172a;--muted:#6b7280;--border:#e5e7eb}
+    .theme-rose{--primary:#e11d48;--primary-weak:#fecdd3;--bg:#fff;--card:#fff1f2;--fg:#111827;--muted:#6b7280;--border:#f3e2e5}
+    .theme-indigo{--primary:#6366f1;--primary-weak:#c7d2fe;--bg:#fff;--card:#eef2ff;--fg:#0f172a;--muted:#6b7280;--border:#e5e7ff}
+    .theme-emerald{--primary:#10b981;--primary-weak:#bbf7d0;--bg:#fff;--card:#ecfdf5;--fg:#052e16;--muted:#4b5563;--border:#d1fae5}
+    .theme-amber{--primary:#f59e0b;--primary-weak:#fde68a;--bg:#fff;--card:#fffbeb;--fg:#1f2937;--muted:#7c6f47;--border:#f5e6b3}
+    .theme-slate{--primary:#0ea5e9;--primary-weak:#bae6fd;--bg:#0b1220;--card:#0f172a;--fg:#e5e7eb;--muted:#94a3b8;--border:#334155}
+    *{box-sizing:border-box}
+    body{margin:0;background:var(--bg);color:var(--fg);font-family:"Segoe UI","Noto Sans Arabic",system-ui,-apple-system,Roboto,Arial,sans-serif;line-height:1.3}
+    .container{max-width:1180px;margin:auto;padding:24px}
+    header{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap; position:relative; padding-inline-start:92px; padding-inline-end:92px;}
+    h1{color:var(--primary);margin:0;font-size:clamp(22px,3vw,34px)}
+    .subtitle{color:var(--muted);margin:.25rem 0 0}
+    .controls{display:flex;gap:12px}
+    .controls label{font-size:13px;color:var(--muted);display:flex;flex-direction:column;gap:6px}
+    input[type="text"],input[type="number"],select{width:100%;background:#fff;color:inherit;border:1px solid var(--border);border-radius:10px;padding:10px 12px;outline:none;transition:box-shadow .15s,border-color .15s}
+    .theme-slate input,.theme-slate select{background:#0b1220;color:var(--fg);border-color:#334155}
+    input:focus,select:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(20,184,166,.25)}
+    .grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+    @media (max-width:700px){.grid2{grid-template-columns:1fr}}
+    fieldset{border:1px solid var(--border);border-radius:12px;background:var(--card);padding:12px;margin-top:12px}
+    legend{padding:0 6px;color:var(--primary);font-weight:600}
+    .symptoms-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+    @media (max-width:1000px){.symptoms-grid{grid-template-columns:repeat(2,1fr)}}
+    @media (max-width:640px){.symptoms-grid{grid-template-columns:1fr}}
+    .symptom-item{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 12px;border:1px solid var(--border);border-radius:10px;background:#fff}
+    .theme-amber .symptom-item{background:#fffdf6}
+    .theme-slate .symptom-item{background:#0b1220}
+    .seg{display:inline-flex;border:1px solid var(--border);border-radius:8px;overflow:hidden}
+    .seg input{display:none}
+    .seg label{padding:6px 12px;cursor:pointer;user-select:none;background:#fff;color:inherit;border-inline-start:1px solid var(--border)}
+    .seg label:first-of-type{border-inline-start:none}
+    .theme-slate .seg label{background:#0b1220;border-color:#334155}
+    .seg input:checked + label{background:var(--primary);color:#fff}
+    button{background:var(--primary);color:#fff;border:none;border-radius:10px;padding:10px 16px;font-size:15px;cursor:pointer;transition:filter .15s,transform .05s}
+    button:hover{filter:brightness(.95)}
+    button:active{transform:translateY(1px)}
+    .actions{display:flex;gap:10px;margin-top:14px;flex-wrap:wrap}
+    .card{margin-top:16px;background:var(--card);padding:14px;border-radius:12px;border:1px solid var(--border);box-shadow:0 0 6px rgba(0,0,0,.06)}
+    .hidden{display:none}
+    .logo-corner{ position:absolute; top:8px; width:64px; height:auto; object-fit:contain; filter: drop-shadow(0 1px 2px rgba(0,0,0,.15)); }
+    .logo-left{ inset-inline-start:12px; }
+    .logo-right{ inset-inline-end:12px; }
+    @media (max-width:640px){
+      header{ padding-inline-start:64px; padding-inline-end:64px; }
+      .logo-corner{ width:44px; top:10px; }
+    }
+
+    .layout{display:grid;grid-template-columns:1fr 360px;gap:20px;align-items:start}
+    @media (max-width:1100px){ .layout{grid-template-columns:1fr} }
+
+    .chat{ position:sticky; top:16px; background:var(--card); border:1px solid var(--border); border-radius:12px; padding:12px; max-height:80vh; display:flex; flex-direction:column; gap:10px; }
+    .chat h3{margin:0 0 6px 0; color:var(--primary)}
+    .chat-log{flex:1; overflow:auto; border:1px dashed var(--border); border-radius:10px; padding:10px; background:#fff}
+    .theme-slate .chat-log{ background:#0b1220 }
+    .msg{margin:6px 0; padding:8px 10px; border-radius:10px; max-width:90%}
+    .msg.user{background:var(--primary-weak)}
+    .msg.bot{background:#e5f9f6}
+    .theme-slate .msg.bot{background:#0a2230}
+    .chat-input{display:flex; gap:8px; margin-top:10px}
+    .end-btn{margin-top:8px;background:#dc2626;color:#fff;border:none;padding:8px 10px;border-radius:8px;cursor:pointer}
+
+    .agent-frame{ width:100%; height:520px; border:0; border-radius:10px; background:#fff; }
+    .theme-slate .agent-frame{ background:#0b1220 }
+
+    #aiText{ white-space:pre-line; margin-top:6px; font-size:14px; color:var(--fg); }
+  </style>
+</head>
+
+<body class="theme-teal">
+  <div class="container">
+    <header>
+      <img class="logo-corner logo-left" src="{{ url_for('static', filename='img/leftt_logo.ico') }}" alt="Left Logo">
+      <div>
+        <h1 id="t_title">{{ translations['ar']['title'] }}</h1>
+        <p id="t_subtitle" class="subtitle">{{ translations['ar']['subtitle'] }}</p>
+      </div>
+
+      <div class="controls">
+        <label><span id="t_language">{{ translations['ar']['language'] }}</span>
+          <select id="lang">
+            <option value="ar" selected>العربية</option>
+            <option value="en">English</option>
+          </select>
+        </label>
+        <label><span id="t_theme">{{ translations['ar']['theme'] }}</span>
+          <select id="theme">
+            <option value="teal" selected>Teal</option>
+            <option value="rose">Rose</option>
+            <option value="indigo">Indigo</option>
+            <option value="emerald">Emerald</option>
+            <option value="amber">Amber</option>
+            <option value="slate">Slate</option>
+          </select>
+        </label>
+      </div>
+
+      <img class="logo-corner logo-right" src="{{ url_for('static', filename='img/right_logo.png') }}" alt="Rowad Misr Alraqameya">
+    </header>
+
+    <div class="layout">
+      <main>
+        <form id="form" class="card" style="width: 1000px; height: 630.13334px;">
+          <div class="grid2">
+            <label>
+              <span id="t_name">{{ translations['ar']['name'] }}</span>
+              <input name="name" type="text" placeholder="من فضلك اكتب اسم المريض">
+            </label>
+            <label>
+              <span id="t_age">{{ translations['ar']['age'] }}</span>
+              <input name="age" type="number" min="0">
+            </label>
+            <label>
+              <span id="t_gender">{{ translations['ar']['gender'] }}</span>
+              <select name="gender" id="gender">
+                <option value="male" id="t_male">{{ translations['ar']['male'] }}</option>
+                <option value="female" id="t_female">{{ translations['ar']['female'] }}</option>
+              </select>
+            </label>
+            <!--<label>
+              <span id="t_threshold">{{ translations['ar']['threshold'] }}</span>
+              <input name="threshold" type="number" step="0.01" value="0.5">
+            </label> -->
+          </div> 
+
+          <fieldset >
+            <legend id="t_symptoms">{{ translations['ar']['symptoms'] }}</legend>
+            <div id="symptomBox" class="symptoms-grid">
+              {% for s in symptoms %}
+                <div class="symptom-item">
+                  <span class="symptom-label" data-key="{{ s }}">{{ s }}</span>
+                  <div class="seg">
+                    <input type="radio" id="no_{{ loop.index }}"  name="symptoms[{{ s }}]" value="No" checked>
+                    <label for="no_{{ loop.index }}">لا</label>
+                    <input type="radio" id="yes_{{ loop.index }}" name="symptoms[{{ s }}]" value="Yes">
+                    <label for="yes_{{ loop.index }}">نعم</label>
+                  </div>
+                </div>
+              {% endfor %}
+            </div>
+          </fieldset>
+
+          <div class="actions">
+            <button type="submit" id="t_btn_predict">{{ translations['ar']['predict'] }}</button>
+            <button type="button" id="pdfBtn">{{ translations['ar']['download_report'] }}</button>
+          </div>
+        </form>
+
+        <section id="result" class="card hidden">
+          <h3 id="t_result">{{ translations['ar']['result'] }}</h3>
+          <p><strong id="t_risk">{{ translations['ar']['risk_level'] }}:</strong> <span id="riskValue">—</span></p>
+          <p><strong id="t_prob">{{ translations['ar']['probability'] }}:</strong> <span id="probValue">—</span></p>
+
+          <hr style="margin:10px 0; border:none; border-top:1px solid var(--border);" />
+
+          <p><strong id="t_ai_title">تحليل الحالة (بالذكاء الاصطناعي):</strong></p>
+          <p id="aiText">—</p>
+          <button type="button" id="aiBtn">تحليل الحالة بالذكاء الاصطناعي</button>
+        </section>
+      </main>
+
+      <aside class="chat">
+        <h3 id="t_assistant_title">مساعد ذكي</h3>
+
+        <iframe
+          id="jotAgent"
+          class="agent-frame"
+          src="https://www.jotform.com/agent/019a5ffe42ef74048854da897e8de95af3e4?lang=ar"
+          allow="clipboard-write; microphone; camera">
+        </iframe>
+
+        <button id="openAgentNew" class="end-btn">فتح المساعد في صفحة جديدة</button>
+      </aside>
+    </div>
+  </div>
+
+  <script>
+    // ===== Theme =====
+    const themeSelect = document.getElementById('theme');
+
+    const THEME_LABELS = {
+      ar: {
+        teal:   'سماوي',
+        rose:   'وردي',
+        indigo: 'نيلي',
+        emerald:'زمردي',
+        amber:  'كهـرماني',
+        slate:  'أزرق داكن',
+      },
+      en: {
+        teal:   'Blue Sky',
+        rose:   'Rose',
+        indigo: 'Indigo',
+        emerald:'Emerald',
+        amber:  'Amber',
+        slate:  'Dark Blue',
+      }
+    };
+
+    function setTheme(val){
+      document.body.classList.forEach(c=>{
+        if(c.startsWith('theme-')) document.body.classList.remove(c);
+      });
+      document.body.classList.add('theme-' + val);
+    }
+
+    function applyThemeLabels(lang){
+      const labels = THEME_LABELS[lang] || THEME_LABELS.en;
+      Array.from(themeSelect.options).forEach(opt=>{
+        const key = opt.value;
+        if(labels[key]){
+          opt.textContent = labels[key];
+        }
+      });
+    }
+
+    themeSelect.addEventListener('change', e=> setTheme(e.target.value));
+
+    // ===== Symptoms map (AR -> EN) =====
+    const SYMPTOMS_MAP = {
+      "ألم في الصدر":"Chest Pain",
+      "ضيق في التنفس":"Shortness of Breath",
+      "اضطراب نبضات القلب":"Irregular Heartbeat",
+      "التعب و ضعط مرتفع":"Fatigue & Weakness",
+      "دوخة":"Dizziness",
+      "تورم (وذمة)":"Swelling (Edema)",
+      "ألم في الرقبة / الكتف / الظهر":"Pain in Neck/Shoulder/Back",
+      "التعرق الزائد":"Excessive Sweating",
+      "السعال المستمر":"Persistent Cough",
+      "الغثيان/القيء":"Nausea/Vomiting",
+      "ضعط دم مرتفع":"High Blood Pressure",
+      "أرتجاع في الصدر":"Chest Discomfort (Activity)",
+      "الأيدي الباردة / القدمين":"Cold Hands/Feet",
+      "الشخير/توقف التنفس أثناء النوم":"Snoring/Sleep Apnea",
+      "القلق / الشعور بالهلاك":"Anxiety/Feeling of Doom"
+    };
+
+    function applySymptomsLanguage(lang){
+      document.querySelectorAll('.symptom-label').forEach(el=>{
+        const arKey = el.dataset.key.trim();
+        if(lang === 'en'){
+           el.textContent = SYMPTOMS_MAP[arKey] || arKey;
+        }else{
+          el.textContent = arKey;
+        }
+      });
+    }
+
+    function updateYesNoLabels(lang){
+      document.querySelectorAll('.seg').forEach(seg=>{
+        const labels = seg.querySelectorAll('label');
+        if(labels.length === 2){
+          if(lang === 'ar'){
+            labels[0].innerText = 'لا';
+            labels[1].innerText = 'نعم';
+          } else {
+            labels[0].innerText = 'No';
+            labels[1].innerText = 'Yes';
+          }
+        }
+      });
+    }
+
+    // ===== Language =====
+    const langSelect = document.getElementById('lang');
+    async function applyLang(lang){
+      const res = await fetch(`/api/translations/${lang}`);
+      const tr  = await res.json();
+
+      const nameInput = document.querySelector('input[name="name"]');
+      if (lang === 'ar') {
+        nameInput.placeholder = "من فضلك اكتب اسم المريض";
+      } else {
+        nameInput.placeholder = "Please enter the name of the patient";
+      }
+
+      t_title.innerText = tr.title;
+      t_subtitle.innerText = tr.subtitle;
+      t_language.innerText = tr.language;
+      t_theme.innerText = tr.theme;
+      t_name.innerText = tr.name;
+      t_age.innerText = tr.age;
+      t_gender.innerText = tr.gender;
+      t_male.innerText = tr.male;
+      t_female.innerText = tr.female;
+      t_threshold.innerText = tr.threshold;
+      t_symptoms.innerText = tr.symptoms;
+      t_btn_predict.innerText = tr.predict;
+      pdfBtn.innerText = tr.download_report;
+      t_result.innerText = tr.result;
+      t_risk.innerText = tr.risk_level + ':';
+      t_prob.innerText = tr.probability + ':';
+
+      document.getElementById('t_assistant_title').innerText =
+        (lang==='ar') ? 'مساعد ذكي' : 'Smart Assistant';
+
+      
+      const aiTitle = document.getElementById('t_ai_title');
+      const aiBtn = document.getElementById('aiBtn');
+      if (aiTitle && aiBtn){
+        if (lang === 'ar'){
+          aiTitle.innerText = 'تحليل الحالة (بالذكاء الاصطناعي):';
+          aiBtn.innerText   = 'تحليل الحالة بالذكاء الاصطناعي';
+        } else {
+          aiTitle.innerText = 'Case analysis (AI-powered):';
+          aiBtn.innerText   = 'Analyze case with AI';
+        }
+      }
+
+      applySymptomsLanguage(lang);
+      updateYesNoLabels(lang);
+      applyThemeLabels(lang);
+
+      document.documentElement.lang = lang;
+      document.documentElement.dir  = (lang === 'ar') ? 'rtl' : 'ltr';
+
+      const frame = document.getElementById('jotAgent');
+      const url = new URL(frame.src);
+      url.searchParams.set('lang', lang);
+      frame.src = url.toString();
+    }
+    langSelect.addEventListener('change', e=> applyLang(e.target.value));
+
+    const form = document.getElementById('form');
+    const resultBox = document.getElementById('result');
+    const riskValue = document.getElementById('riskValue');
+    const probValue = document.getElementById('probValue');
+    const aiText = document.getElementById('aiText');
+    const aiBtn  = document.getElementById('aiBtn');
+    let lastResult = null;
+
+    function collectPayload(){
+      const fd = new FormData(form);
+      const payload = {
+        name: fd.get('name')||'',
+        age: Number(fd.get('age')||0),
+        gender: fd.get('gender')||'',
+        threshold: Number(fd.get('threshold')||0.5),
+        symptoms: {}
+      };
+      document
+        .querySelectorAll('input[type="radio"][name^="symptoms["]:checked')
+        .forEach(r => {
+          const m = r.name.match(/\[(.+)\]/);
+          if (m) payload.symptoms[m[1]] = r.value;
+        });
+      return payload;
+    }
+
+    form.addEventListener('submit', async (e)=>{
+      e.preventDefault();
+      const payload = collectPayload();
+      const resp = await fetch('/api/predict', {
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body: JSON.stringify(payload)
+      });
+      const data = await resp.json();
+      if(!data.success){
+        alert('Error: ' + data.error);
+        return;
+      }
+      riskValue.innerText = data.risk_level;
+      probValue.innerText = data.probability.toFixed(2) + '%';
+      resultBox.classList.remove('hidden');
+      aiText.textContent = '—';  
+
+      lastResult = {
+        ...payload,
+        risk_level: data.risk_level,
+        probability: data.probability,
+        threshold: data.threshold
+      };
+
+      refreshEndBtnLabel();
+    });
+
+    const pdfBtn = document.getElementById('pdfBtn');
+    pdfBtn.addEventListener('click', async ()=>{
+      if(!lastResult){
+        alert((langSelect.value==='ar')?'قم بحساب النتيجة أولًا':'Please calculate first');
+        return;
+      }
+      const r = await fetch('/api/export-pdf', {
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body: JSON.stringify({
+          name:       lastResult.name,
+          age:        lastResult.age,
+          gender:     lastResult.gender,
+          symptoms:   lastResult.symptoms,
+          risk_level: lastResult.risk_level,
+          probability:lastResult.probability,
+          threshold:  lastResult.threshold,
+          language:   langSelect.value
+        })
+      });
+      if(!r.ok){
+        let msg = 'PDF error: ' + r.status;
+        try {
+          const j = await r.json();
+          if(j.error) msg = 'PDF error: ' + j.error;
+        } catch(e){}
+        alert(msg);
+        return;
+      }
+      const blob = await r.blob();
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download =
+        (lastResult.name? lastResult.name + '_' : 'report_') +
+        new Date().toISOString().replace(/[:.]/g,'-') +
+        '.pdf';
+      a.click();
+      URL.revokeObjectURL(url);
+    });
+
+    
+    aiBtn.addEventListener('click', async ()=>{
+      if (!lastResult){
+        alert((langSelect.value==='ar')?'قم بحساب النتيجة أولًا':'Please calculate first');
+        return;
+      }
+      aiText.textContent =
+        (langSelect.value==='ar') ? 'جارٍ تحليل الحالة بالذكاء الاصطناعي...' : 'Analyzing case with AI...';
+
+      try{
+        const resp = await fetch('/api/ai-analysis', {
+          method:'POST',
+          headers:{'Content-Type':'application/json'},
+          body: JSON.stringify({
+            name:       lastResult.name,
+            age:        lastResult.age,
+            gender:     lastResult.gender,
+            symptoms:   lastResult.symptoms,
+            risk_level: lastResult.risk_level,
+            probability:lastResult.probability,
+            threshold:  lastResult.threshold,
+            language:   langSelect.value
+          })
+        });
+        const data = await resp.json();
+        if (!data.success){
+          throw new Error(data.error || 'AI error');
+        }
+        aiText.textContent =
+          data.analysis ||
+          ((langSelect.value==='ar')
+            ? 'لم يصل أي تحليل من الخادم.'
+            : 'No analysis returned from server.');
+      } catch(err){
+        console.error(err);
+        aiText.textContent =
+          (langSelect.value==='ar')
+            ? 'حدث خطأ أثناء الاتصال بالمساعد.'
+            : 'An error occurred while contacting the AI assistant.';
+      }
+    });
+
+    document.getElementById('openAgentNew').addEventListener('click', ()=>{
+      const lang = document.documentElement.lang || 'ar';
+      const url = new URL('https://www.jotform.com/agent/019a5ffe42ef74048854da897e8de95af3e4');
+      url.searchParams.set('lang', lang);
+      window.open(url.toString(), '_blank', 'noopener');
+    });
+
+    const endBtn = document.getElementById('openAgentNew');
+    function refreshEndBtnLabel(){
+      const nm = (lastResult && lastResult.name)
+        ? lastResult.name
+        : (langSelect.value==='ar'?'بدون اسم':'No name');
+      endBtn.textContent =
+        (langSelect.value==='ar')
+          ? `فتح المساعد في صفحة جديدة– ${nm}`
+          : `Open Assistant in New Tab – ${nm}`;
+    }
+
+    // init
+    setTheme('teal');
+    applyLang('ar');
+    refreshEndBtnLabel();
+  </script>
+</body>
+</html>
