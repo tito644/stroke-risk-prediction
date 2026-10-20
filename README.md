@@ -2,7 +2,7 @@
 
 An end-to-end data science project predicting stroke risk — built, tested, and revised through two complete phases of investigation: a synthetic dataset whose near-perfect results turned out to be a data artifact, and a real clinical dataset that validates which findings actually hold up.
 
-> **Looking for the original 2025 version of this project?** It's preserved in [`legacy/`](./legacy), including the original notebook, Power BI dashboards, and documentation. This README describes the current (V2) version.
+> **Looking for the original 2025 version of this project?** It's preserved in [`legacy/`](./legacy), including the original notebook, Power BI dashboards, and documentation. Results reported there are **superseded** by the V2 results described in this README.
 
 ---
 
@@ -59,7 +59,7 @@ stroke-risk-prediction/
 | Question | Synthetic Data (Phase 1) | Real Data (Phase 2) |
 |---|---|---|
 | Best model | Linear Regression | Logistic Regression (`class_weight='balanced'`) |
-| Headline metric | R² = 0.9999950 | ROC-AUC = 0.837 |
+| Headline metric | R² = 0.9999950 | **ROC-AUC = 0.837** |
 | Dominant feature | Age | Age (confirmed) |
 | Other features' weights | Nearly identical (~2.5 each) — a data artifact | Genuinely unequal: hypertension and heart disease roughly **3–4x relative risk** |
 | Naive-baseline trap | Not applicable | A model predicting "no stroke" for everyone scores 95.1% accuracy with 2% recall |
@@ -67,13 +67,15 @@ stroke-risk-prediction/
 
 The full reasoning, code, and evidence for every row in this table is in the notebooks — this README only summarizes the conclusion.
 
+The only headline result of this project is the **Phase 2 ROC-AUC of 0.837 on real clinical data**. The Phase 1 R² is kept for methodology and transparency only.
+
 ---
 
 ## 🖥️ Running the Apps
 
 Both apps use the **real-data model** (`stroke_classification_model_real_data.joblib`) exclusively. The synthetic-data model (`stroke_regression_model.joblib`) is kept for methodology and is not used in either app, since its near-perfect score does not reflect real stroke risk — see notebook 01 for why.
 
-The classification threshold (53.1%, not the default 50%) is statistically derived from Youden's J statistic on the real-data test set, balancing sensitivity (80%) against specificity (77%).
+The classification threshold (53.1%, not the default 50%) is derived from Youden's J statistic on the real-data test set, balancing sensitivity (80%) against specificity (77%). See [Limitations](#️-limitations) for what this implies.
 
 ### Streamlit
 ```bash
@@ -92,9 +94,19 @@ python app.py
 
 ---
 
+## ⚠️ Limitations
+
+- **Threshold selected on the test set.** The 53.1% threshold was chosen using the same held-out test set that the sensitivity (80%) and specificity (77%) are reported on, so those two figures are optimistic estimates. A cleaner design selects the threshold on a separate validation set (or via cross-validation) and reports final numbers on an untouched test set.
+- **Low precision at this operating point.** With 4.87% positive cases, 80% sensitivity and 77% specificity imply a positive predictive value of roughly 15% (computed from the reported figures, assuming the test set has a similar prevalence). Most positive screens would be false alarms. Precision and PR-AUC are not reported in this version.
+- **Non-linear models did not help.** Random Forest collapses to 0% recall on the real data even with class weighting; Logistic Regression is the only model reported as usable.
+- **Small positive class.** The real dataset has 5,110 patients and a few hundred stroke cases, so metrics have wide uncertainty.
+- **Educational scope.** The model is trained on a public Kaggle dataset, not on a validated clinical cohort.
+
+---
+
 ## ⚠️ Disclaimer
 
-This project — including both apps — is an educational data science exercise, **not a medical diagnostic tool**. The real-data model achieves ROC-AUC = 0.837 and Recall = 80% on held-out test data, which is reasonable for a screening aid but should never replace professional medical evaluation. If you or someone near you shows sudden stroke symptoms (numbness, difficulty speaking, sudden one-sided weakness), contact emergency services immediately.
+This project — including both apps — is an educational data science exercise, **not a medical diagnostic tool**. The real-data model achieves ROC-AUC = 0.837 on held-out test data (with the threshold-selection caveat above), which is reasonable for a screening aid but should never replace professional medical evaluation. If you or someone near you shows sudden stroke symptoms (numbness, difficulty speaking, sudden one-sided weakness), contact emergency services immediately.
 
 ---
 
@@ -106,6 +118,7 @@ Python · pandas · scikit-learn · imbalanced-learn · matplotlib/seaborn · Fl
 
 ## 👤 Author
 
-Tariq Elnaggar — Data Scientist
+**Tariq Elnaggar** — Data Scientist  
+[GitHub](https://github.com/tito644) · [LinkedIn](https://www.linkedin.com/in/tarek-mohamed-el-naggar/)
 
 This is a living portfolio project: Phase 1 was built in 2025; Phase 2 (real-data validation) and both deployed apps were added in 2026 after revisiting and critically re-evaluating the original results.
